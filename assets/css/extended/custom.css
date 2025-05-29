@@ -1,19 +1,25 @@
 /* Custom styles added to demo */
-@import "github-markdow0n.css";
 
 .twitter-tweet {
-    margin: auto;
+  margin: auto;
 }
 
 iframe {
-    border-radius: var(--radius) !important;
+  border-radius: var(--radius) !important;
 }
 
 .home-info ul {
-    padding-inline-start: 20px;
+  padding-inline-start: 20px;
 }
 
 .entry-cover img {
-    border: 1px solid var(--border);
+  border: 1px solid var(--border);
 }
 
+/* 
+ * 取消 .chroma 容器的默认背景色, 改为继承主题背景色
+ * 避免代码块背景色与整体主题不一致导致视觉不协调
+ */
+.chroma {
+  background-color: unset;
+}

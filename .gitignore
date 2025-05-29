@@ -172,3 +172,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# Custom
+/content/posts_backup/
+.markdownlint-cli2.jsonc

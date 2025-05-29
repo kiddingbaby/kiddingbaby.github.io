@@ -1,12 +1,8 @@
-# If your site is in 'https', then make sure your base url isn't written using 'http' otherwise your sitemap would
-# contain http (as opposeed to https) URLs. This would affect Google indexing of your URLs.
-baseURL: "http://127.0.0.1:1313"
-title: DevOps NOW
-copyright: "© 2023–2025 NOW · All rights reserved."
+baseURL: "/"
 theme: [PaperMod]
 mainsections: ["posts"]
 enableEmoji: true
-enableInlineShortcodes: true
+copyright: "© 2025 kiddingbaby · All rights reserved."
 
 # 构建
 buildDrafts: false
@@ -16,14 +12,14 @@ buildExpired: false
 # SEO
 enableRobotsTXT: true
 sitemap:
-  changefreq: "monthly"
+  changefreq: "weekly"
   priority: 0.5
   filename: "sitemap.xml"
 
 # 压缩
 minify:
   disableXML: true
-  # minifyOutput: true
+  minifyOutput: true
 
 # 分页
 pagination:
@@ -31,13 +27,17 @@ pagination:
   pagerSize: 5
 
 # 多语言
+languageCode: zh-CN
 defaultContentLanguage: "zh"
 defaultContentLanguageInSubdir: false
+hasCJKLanguage: true
 languages:
   zh:
+    languageCode: "zh-CN"
     languageName: "中文"
     weight: 1
-    title: PaperModL2
+    title: "DevOps Notes"
+    disable: false
     taxonomies:
       category: categories
       tag: tags
@@ -56,38 +56,113 @@ languages:
         - name: 归档
           url: archives
           weight: 4
-        - name: WiKi
-          url: https://github.com/adityatelange/hugo-PaperMod/wiki/
-          weight: 5
-
-    # params:
-    #   languageAltTitle: 中文
-    #   profileMode:
-    #     enabled: true
-    #     title: PaperMod
-    #     imageUrl: "https://raw.githubusercontent.com/googlefonts/noto-emoji/master/svg/emoji_u1f9d1_1f3fb_200d_1f4bb.svg"
-    #     imageTitle: ProfileMode image
-    #     # imageWidth: 120
-    #     # imageHeight: 120
-    #     subtitle: "☄️ Fast | ☁️ Fluent | 🌙 Smooth | 📱 Responsive"
-    #     buttons:
-    #       - name: 博客
-    #         url: posts
-    #       - name: Profile Mode
-    #         url: https://github.com/adityatelange/hugo-PaperMod/wiki/Features#profile-mode
+    params:
+      languageAltTitle: 中文
+      profileMode:
+        enabled: true
+        title: DevOps Notes
+        imageUrl: "images/global/cat.svg"
+        imageTitle: DevOps Notes
+        imageWidth: 120
+        imageHeight: 120
+        subtitle: "⚙️ 基础设施 | ☁️ 云平台 | 🔄 CI/CD | 🔎 可观测性 | 🔗 服务网格 | 🔐 安全治理"
+        buttons:
+          - name: 随便看看
+            url: posts
 
 outputs:
-  home:
-    - HTML
-    - RSS
-    - JSON
+  home: ["HTML", "RSS", "JSON"]
+  section: ["HTML", "RSS"]
+  taxonomy: ["HTML", "RSS"]
 
-# 主题参数
+# 高亮
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    # 使用 CSS 类方式管理代码高亮
+    noClasses: false
+    anchorLineNos: true
+    codeFences: true
+    guessSyntax: false
+    lineNos: false
+    style: nord
+
+# 安全
+security:
+  enableInlineShortcodes: true
+  exec:
+    allow:
+      - ^(dart-)?sass(-embedded)?$
+      - ^go$
+      - ^git$
+      - ^npx$
+      - ^postcss$
+      - ^tailwindcss$
+    osEnv:
+      - (?i)^((HTTPS?|NO)_PROXY|PATH(EXT)?|APPDATA|TE?MP|TERM|GO\w+|(XDG_CONFIG_)?HOME|USERPROFILE|SSH_AUTH_SOCK|DISPLAY|LANG|SYSTEMDRIVE)$
+  funcs:
+    getenv:
+      - ^HUGO_
+      - ^CI$
+  http:
+    mediaTypes: null
+    methods:
+      - (?i)GET|POST
+    urls:
+      - .*
+
+# 隐私设置
+# privacy:
+#   disqus:
+#     disable: false
+#   googleAnalytics:
+#     disable: false
+#     respectDoNotTrack: false
+#   instagram:
+#     disable: false
+#     simple: false
+#   twitter:
+#     disable: false
+#     enableDNT: false
+#     simple: false
+#   vimeo:
+#     disable: false
+#     enableDNT: false
+#     simple: false
+#   x:
+#     disable: false
+#     enableDNT: false
+#     simple: false
+#   youTube:
+#     disable: false
+#     privacyEnhanced: false
+
+# 集成服务
+services:
+  # disqus:
+  #   shortname: ""
+  # googleAnalytics:
+  #   id: ""
+  # instagram:
+  #   accessToken: ""
+  #   disableInlineCSS: false
+  # rss:
+  #   limit: -1
+  # twitter:
+  #   disableInlineCSS: false
+  # x:
+  #   disableInlineCSS: false
+
+# PaperMod 变量
 params:
   env: production
-  description: "DevOps tools, tips, and best practices for developers and system administrators."
+  description: "DevOps tools & tips, and best practices for developers and system administrators."
+  keywords: ["DevOps", "Automation", "Visibility", "Cloud-Native", "Security"]
   author: "kiddingbaby"
   defaultTheme: auto
+  disableThemeToggle: false
   ShowShareButtons: true
   ShareButtons: ["x", "reddit"]
   ShowReadingTime: false
@@ -102,23 +177,10 @@ params:
   # comments: false
   images: ["images/papermod-cover.png"]
 
-  profileMode:
-    enabled: false
-    title: PaperMod
-    imageUrl: "#"
-    imageTitle: my image
-    # imageWidth: 120
-    # imageHeight: 120
-    buttons:
-      - name: Archives
-        url: archives
-      - name: Tags
-        url: tags
-
-  # 主页参数
-  homeInfoParams:
-    Title: "DevOps 笔记"
-    Content: 👋 你好，这里记录了我在 DevOps 实践中的所思所想，希望这些内容能为你提供一些启发。
+  # homeInfoParams:
+  #   Title: "DevOps 笔记"
+  #   Content: 记录 DevOps 工程落地过程中的关键经验与设计思考
+  
   socialIcons:
     - name: github
       title: View Source on Github
@@ -132,76 +194,49 @@ params:
     # - name: KoFi
     #   title: Buy me a Ko-Fi :)
     #   url: "https://ko-fi.com/WFrancis"
+  
   editPost:
-    URL: "https://github.com/kiddingbaby/devops-notes/tree/exampleSite/content"
-    Text: "建议" # edit text
-    appendFilePath: true # to append file path to Edit link
+    URL: "https://github.com/kiddingbaby/devops-notes/tree/main/content"
+    Text: "建议编辑"
+    appendFilePath: true
 
-  # label:
-  # iconSVG: '<svg xmlns="http://www.w3.org/2000/svg" height="25" viewBox="0 -960 960 960" fill="currentColor"><path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>'
-  # text: "Home"
-  # icon: icon.png
-  # iconHeight: 35
-
-  # analytics:
-  #     google:
-  #         SiteVerificationTag: "XYZabc"
+  # 首页标签
+  label:
+    text: "Hi~  "
+    icon: "favicon/favicon.ico"
+    iconHeight: 20
+ 
+  # 搜索行为
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
 
   assets:
+    # 禁用 Highlight.js, 使用 Hugo 内置 Chroma 服务端渲染
     disableHLJS: true
-  #     favicon: "<link / abs url>"
-  #     favicon16x16: "<link / abs url>"
-  #     favicon32x32: "<link / abs url>"
-  #     apple_touch_icon: "<link / abs url>"
-  #     safari_pinned_tab: "<link / abs url>"
+    disableFingerprinting: false
+    favicon: "favicon/favicon.ico"
+    favicon16x16: "favicon/favicon-16x16.png"
+    favicon32x32: "favicon/favicon-32x32.png"
+    apple_touch_icon: "favicon/apple-touch-icon.png"
 
-  # cover:
-  #     hidden: true # hide everywhere but not in structured data
-  #     hiddenInList: true # hide on list pages and home
-  #     hiddenInSingle: true # hide on single page
+  # 无需封面
+  cover:
+    hidden: true
+    hiddenInList: true
+    hiddenInSingle: true
 
-  # fuseOpts:
-  #     isCaseSensitive: false
-  #     shouldSort: true
-  #     location: 0
-  #     distance: 1000
-  #     threshold: 0.4
-  #     minMatchCharLength: 0
-  #     keys: ["title", "permalink", "summary", "content"]
-
-# 高亮
-markup:
-  goldmark:
-    renderer:
-      unsafe: true
-  highlight:
-    noClasses: false
-    # anchorLineNos: true
-    # codeFences: true
-    # guessSyntax: true
-    # lineNos: true
-    # style: monokai
-
-# privacy:
-#   vimeo:
-#     disabled: false
-#     simple: true
-
-#   twitter:
-#     disabled: false
-#     enableDNT: true
-#     simple: true
-
-#   instagram:
-#     disabled: false
-#     simple: true
-
-#   youtube:
-#     disabled: false
-#     privacyEnhanced: true
-
-services:
-  instagram:
-    disableInlineCSS: true
-  x:
-    disableInlineCSS: true
+  # 站点所有权验证 
+  # TODO
+  analytics:
+    google:
+      SiteVerificationTag: ""
+    bing:
+      SiteVerificationTag: ""
+    yandex:
+      SiteVerificationTag: ""
