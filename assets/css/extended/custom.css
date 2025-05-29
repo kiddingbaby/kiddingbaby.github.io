@@ -1,4 +1,5 @@
 /* Custom styles added to demo */
+@import "github-markdow0n.css";
 
 .twitter-tweet {
     margin: auto;
@@ -15,3 +16,4 @@ iframe {
 .entry-cover img {
     border: 1px solid var(--border);
 }
+

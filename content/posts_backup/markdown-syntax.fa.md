@@ -1,17 +1,16 @@
 ---
+draft: true
 author: "Hugo Authors"
-title: "Markdown Syntax Guide"
+title: "Markdown Syntax Guide For RTL"
 date: "2019-03-11"
 description: "Sample article showcasing basic Markdown syntax and formatting for HTML elements."
-tags: ["markdown", "css", "html", "themes"]
-categories: ["themes", "syntax"]
-series: ["Themes Guide"]
+FAtags: ["markdown", "css", "html", "themes"]
+FAcategories: ["themes", "syntax"]
+FAseries: ["Themes Guide"]
 aliases: ["migrate-from-jekyl"]
-cover:
-  image: images/msg.png
-  caption: "Generated using [OG Image Playground by Vercel](https://og-playground.vercel.app/)"
 ShowToc: true
 TocOpen: true
+weight: 2
 ---
 
 This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.
@@ -72,6 +71,82 @@ Tables aren't part of the core Markdown spec, but Hugo supports them out-of-the-
 | --------- | -------- | ------ |
 | _italics_ | **bold** | `code` |
 
+## Code Blocks
+
+#### Inline Code
+
+`This is Inline Code`
+
+#### Only `pre`
+
+<pre>
+This is pre text
+</pre>
+
+#### Code block with backticks
+
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Example HTML5 Document</title>
+    </head>
+    <body>
+        <p>Test</p>
+    </body>
+</html>
+```
+
+#### Code block with backticks and language specified
+
+```html {linenos=true}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Example HTML5 Document</title>
+        <meta name="description" content="Sample article showcasing basic Markdown syntax and formatting for HTML elements.">
+    </head>
+    <body>
+        <p>Test</p>
+    </body>
+</html>
+```
+
+#### Code block indented with four spaces
+
+    <!doctype html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <title>Example HTML5 Document</title>
+    </head>
+    <body>
+      <p>Test</p>
+    </body>
+    </html>
+
+#### Code block with Hugo's internal highlight shortcode
+
+{{< highlight html >}}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Example HTML5 Document</title>
+</head>
+<body>
+  <p>Test</p>
+</body>
+</html>
+{{< /highlight >}}
+
+#### Gist
+
+{{< gist spf13 7896402 >}}
+
 ## List Types
 
 #### Ordered List
@@ -82,32 +157,19 @@ Tables aren't part of the core Markdown spec, but Hugo supports them out-of-the-
 
 #### Unordered List
 
-- List item
-- Another item
-- And another item
+-   List item
+-   Another item
+-   And another item
 
-#### Nested Unordered list
+#### Nested list
 
-- Fruit
-  - Apple
-  - Orange
-  - Banana
-- Dairy
-  - Milk
-  - Cheese
-
-#### Nested Ordered list
-
-1. Fruit
-    - Apple
-    - Orange
-    - Banana
-2. Dairy
-    1. Milk
-    2. Cheese
-3. Third item
-    1. Sub One
-    2. Sub Two
+-   Fruit
+    -   Apple
+    -   Orange
+    -   Banana
+-   Dairy
+    -   Milk
+    -   Cheese
 
 ## Other Elements — abbr, sub, sup, kbd, mark
 

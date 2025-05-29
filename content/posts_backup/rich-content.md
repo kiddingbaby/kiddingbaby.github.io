@@ -1,4 +1,5 @@
 ---
+draft: true
 author: ["Hugo Authors", "PaperMod Contributors"]
 title: "Rich Content and Shortcodes"
 date: "2019-03-10"

@@ -1,4 +1,5 @@
 ---
+draft: true
 author: Hugo Authors
 title: Math Typesetting
 date: 2019-03-08

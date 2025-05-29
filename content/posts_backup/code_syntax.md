@@ -1,4 +1,5 @@
 ---
+draft: true
 author: ["Aditya Telange"]
 title: "Code Syntax Guide"
 date: "2019-03-10"
