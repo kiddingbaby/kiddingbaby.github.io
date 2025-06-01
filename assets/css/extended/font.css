@@ -1,46 +1,94 @@
+/* 英文字体：Noto Sans */
 @font-face {
-  font-family: "Inter";
-  src: url("/fonts/inter/inter-v12-latin-400.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Noto Sans";
   font-style: normal;
+  font-weight: 400;
   font-display: swap;
+  src: url("/fonts/noto-sans-v39-latin-regular.woff2") format("woff2");
 }
 @font-face {
-  font-family: "Inter";
-  src: url("/fonts/inter/inter-v12-latin-700.woff2") format("woff2");
-  font-weight: 700;
+  font-family: "Noto Sans";
   font-style: normal;
+  font-weight: 500;
   font-display: swap;
+  src: url("/fonts/noto-sans-v39-latin-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/noto-sans-v39-latin-700.woff2") format("woff2");
 }
 
+/* 中文字体：Noto Sans SC */
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/noto-sans-sc-v37-chinese-simplified-regular.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/noto-sans-sc-v37-chinese-simplified-500.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans SC";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/noto-sans-sc-v37-chinese-simplified-700.woff2")
+    format("woff2");
+}
+
+/* 代码字体：Source Code Pro */
 @font-face {
   font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
   src: url("/fonts/source-code-pro-v30-latin-regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
 }
 @font-face {
   font-family: "Source Code Pro";
-  src: url("/fonts/source-code-pro-v30-latin-700.woff2") format("woff2");
-  font-weight: 700;
   font-style: normal;
+  font-weight: 500;
   font-display: swap;
+  src: url("/fonts/source-code-pro-v30-latin-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/source-code-pro-v30-latin-700.woff2") format("woff2");
 }
 
+/* 正文排版字体（中英文混排） */
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  font-size: 18px;
+  font-family: "Noto Sans", "Noto Sans SC", "Segoe UI", Roboto, "Helvetica Neue",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Apple Color Emoji",
+    sans-serif;
+  font-size: 20px;
   line-height: 1.6;
   word-break: break-word;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background: var(--theme);
 }
 
+/* 代码字体配置 */
 code,
 pre,
 .highlight {
-  font-family: "Source Code Pro", Menlo, Consolas, "Liberation Mono",
-    "DejaVu Sans Mono", "Courier New", monospace;
+  font-family: "Source Code Pro", Consolas, Menlo, Monaco, "Courier New",
+    "Liberation Mono", monospace;
   font-size: 1.05em;
+  line-height: 1.6;
 }
