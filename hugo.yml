@@ -1,4 +1,4 @@
-baseURL: "/"
+baseURL: "https://kiddingbaby.github.io/devops-notes"
 theme: [PaperMod]
 mainsections: ["posts"]
 enableEmoji: true
