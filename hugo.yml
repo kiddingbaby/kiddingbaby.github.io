@@ -172,7 +172,6 @@ security:
 
 # PaperMod 变量
 params:
-  env: production
   description: "DevOps tools & tips, and best practices for developers and system administrators."
   keywords: ["DevOps", "Automation", "Visibility", "Cloud-Native", "Security"]
   author: "kiddingbaby"
@@ -246,11 +245,10 @@ params:
     hiddenInSingle: true
 
   # 站点所有权验证
-  # TODO
   analytics:
     google:
-      SiteVerificationTag: ""
+      SiteVerificationTag: "9LLNZ7u-itiHahFUtNsQRkwelLmMaT7_7LNkvuDcVo4"
     bing:
-      SiteVerificationTag: ""
+      SiteVerificationTag: 243869D13E10A37FFFF896632D36E82D"
     yandex:
-      SiteVerificationTag: ""
+      SiteVerificationTag: "b671a41272723922"
