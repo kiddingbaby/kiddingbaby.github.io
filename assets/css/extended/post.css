@@ -2,3 +2,13 @@
   color: #007acc;
   border-bottom-color: transparent;
 }
+
+/* 解决 Markdown 中 <p> 标签割裂的问题 */
+.post-content p {
+  margin: 1rem 0;
+}
+
+.post-content ol li p,
+.post-content ul li p {
+  margin: 0.25rem 0;
+}

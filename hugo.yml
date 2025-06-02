@@ -109,7 +109,7 @@ security:
   http:
     mediaTypes: null
     methods:
-      - (?i)GET|POST
+      - (?i)GET
     urls:
       - .*
 
@@ -140,20 +140,20 @@ security:
 #     privacyEnhanced: false
 
 # 集成服务
-services:
-  # disqus:
-  #   shortname: ""
-  # googleAnalytics:
-  #   id: ""
-  # instagram:
-  #   accessToken: ""
-  #   disableInlineCSS: false
-  # rss:
-  #   limit: -1
-  # twitter:
-  #   disableInlineCSS: false
-  # x:
-  #   disableInlineCSS: false
+# services:
+# disqus:
+#   shortname: ""
+# googleAnalytics:
+#   id: ""
+# instagram:
+#   accessToken: ""
+#   disableInlineCSS: false
+# rss:
+#   limit: -1
+# twitter:
+#   disableInlineCSS: false
+# x:
+#   disableInlineCSS: false
 
 # PaperMod 变量
 params:
@@ -174,13 +174,12 @@ params:
   ShowAllPagesInArchive: true
   ShowPageNums: true
   ShowToc: true
-  # comments: false
-  images: ["images/papermod-cover.png"]
+  comments: true
 
   # homeInfoParams:
   #   Title: "DevOps 笔记"
   #   Content: 记录 DevOps 工程落地过程中的关键经验与设计思考
-  
+
   socialIcons:
     - name: github
       title: View Source on Github
@@ -194,7 +193,7 @@ params:
     # - name: KoFi
     #   title: Buy me a Ko-Fi :)
     #   url: "https://ko-fi.com/WFrancis"
-  
+
   editPost:
     URL: "https://github.com/kiddingbaby/devops-notes/tree/main/content"
     Text: "建议编辑"
@@ -205,7 +204,7 @@ params:
     text: "Hi~  "
     icon: "favicon/favicon.ico"
     iconHeight: 20
- 
+
   # 搜索行为
   fuseOpts:
     isCaseSensitive: false
@@ -231,7 +230,7 @@ params:
     hiddenInList: true
     hiddenInSingle: true
 
-  # 站点所有权验证 
+  # 站点所有权验证
   # TODO
   analytics:
     google:
