@@ -175,3 +175,6 @@ dist
 # Custom
 /content/posts_backup/
 .markdownlint-cli2.jsonc
+.vscode/
+.DS_Store
+Thumbs.db
