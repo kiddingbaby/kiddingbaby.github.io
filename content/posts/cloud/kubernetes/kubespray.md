@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "基于 Kubespary 部署高可用的 Kubernetes 集群"
 date: "2025-05-11"
 description: ""
@@ -9,14 +10,6 @@ ShowToc: true
 TocOpen: false
 ---
 
-# test
-
-testtest
-test
-
-
-test
-
-
+# Test
 
 test
