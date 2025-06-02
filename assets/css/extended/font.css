@@ -4,21 +4,21 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/devops-notes/fonts/noto-sans-v39-latin-regular.woff2") format("woff2");
+  src: url("/fonts/noto-sans-v39-latin-regular.woff2") format("woff2");
 }
 @font-face {
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("/devops-notes/fonts/noto-sans-v39-latin-500.woff2") format("woff2");
+  src: url("/fonts/noto-sans-v39-latin-500.woff2") format("woff2");
 }
 @font-face {
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/devops-notes/fonts/noto-sans-v39-latin-700.woff2") format("woff2");
+  src: url("/fonts/noto-sans-v39-latin-700.woff2") format("woff2");
 }
 
 /* 中文字体：Noto Sans SC */
@@ -27,7 +27,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/devops-notes/fonts/noto-sans-sc-v37-chinese-simplified-regular.woff2")
+  src: url("/fonts/noto-sans-sc-v37-chinese-simplified-regular.woff2")
     format("woff2");
 }
 @font-face {
@@ -35,7 +35,7 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("/devops-notes/fonts/noto-sans-sc-v37-chinese-simplified-500.woff2")
+  src: url("/fonts/noto-sans-sc-v37-chinese-simplified-500.woff2")
     format("woff2");
 }
 @font-face {
@@ -43,7 +43,7 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/devops-notes/fonts/noto-sans-sc-v37-chinese-simplified-700.woff2")
+  src: url("/fonts/noto-sans-sc-v37-chinese-simplified-700.woff2")
     format("woff2");
 }
 
@@ -53,21 +53,21 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/devops-notes/fonts/source-code-pro-v30-latin-regular.woff2") format("woff2");
+  src: url("/fonts/source-code-pro-v30-latin-regular.woff2") format("woff2");
 }
 @font-face {
   font-family: "Source Code Pro";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("/devops-notes/fonts/source-code-pro-v30-latin-500.woff2") format("woff2");
+  src: url("/fonts/source-code-pro-v30-latin-500.woff2") format("woff2");
 }
 @font-face {
   font-family: "Source Code Pro";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/devops-notes/fonts/source-code-pro-v30-latin-700.woff2") format("woff2");
+  src: url("/fonts/source-code-pro-v30-latin-700.woff2") format("woff2");
 }
 
 /* 正文排版字体（中英文混排） */

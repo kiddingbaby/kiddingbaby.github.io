@@ -1,4 +1,4 @@
-baseURL: "https://kiddingbaby.github.io/devops-notes"
+baseURL: "https://kiddingbaby.github.io/"
 theme: [PaperMod]
 mainsections: ["posts"]
 enableEmoji: true
@@ -209,7 +209,7 @@ params:
     #   url: "https://ko-fi.com/WFrancis"
 
   editPost:
-    URL: "https://github.com/kiddingbaby/devops-notes/tree/main/content"
+    URL: "https://github.com/kiddingbaby/kiddingbaby.github.io/tree/main/content"
     Text: "建议编辑"
     appendFilePath: true
 
