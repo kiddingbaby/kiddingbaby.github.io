@@ -75,11 +75,26 @@ outputs:
   section: ["HTML", "RSS"]
   taxonomy: ["HTML", "RSS"]
 
-# 高亮
+# Markdown 渲染
 markup:
   goldmark:
     renderer:
-      unsafe: true
+      unsafe: false
+    extensions:
+      cjk:
+        enable: true
+        eastAsianLineBreaks: true
+        eastAsianLineBreaksStyle: simple
+        escapedSpace: false
+      extras:
+        mark:
+          enable: true
+        subscript:
+          enable: true
+        superscript:
+          enable: true
+    parser:
+      wrapStandAloneImageWithinParagraph: true
   highlight:
     # 使用 CSS 类方式管理代码高亮
     noClasses: false
@@ -178,7 +193,7 @@ params:
 
   # homeInfoParams:
   #   Title: "DevOps 笔记"
-  #   Content: 记录 DevOps 工程落地过程中的关键经验与设计思考
+  #   Content: 记录 DevOps 工程落地过程中的经验与思考
 
   socialIcons:
     - name: github
@@ -186,7 +201,7 @@ params:
       url: "https://github.com/kiddingbaby"
     - name: X
       title: Share PaperMod on X/Twitter
-      url: "https://x.com/intent/tweet/?text=Checkout%20Hugo%20PaperMod%20%E2%9C%A8%0AA%20fast,%20clean,%20responsive%20Hugo%20theme.&url=https://github.com/adityatelange/hugo-PaperMod&hashtags=Hugo,PaperMod"
+      url: "https://x.com/kidding_baby/"
     # - name: Discord
     #   title: Join discord community
     #   url: "https://discord.gg/ahpmTvhVmp"
