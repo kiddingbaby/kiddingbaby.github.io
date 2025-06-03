@@ -1,6 +1,6 @@
 ---
 title: "Etcd 集群整体宕机的恢复方案"
-date: "2025-05-11"
+date: ""
 description: ""
 categories: ["云平台"]
 tags: ["etcd"]
@@ -11,26 +11,30 @@ TocOpen: false
  
 ## 背景
 
-Kubernetes 集群目前并没有提供关机重启的选项，因此维护 etcd 集群的稳定至关重要，在生产环境下我推荐把 etcd 集群放在单独的区域中，并通过 systemd 管理。但即使这样，也有可能遇到极端事件导致集群整体宕机后无法启动。
+Kubernetes 集群目前并没有提供关机重启的选项，因此维护 etcd 集群的稳定至关重要，在生产环境下推荐以 External 方式来部署 etcd 集群，并放在单独的区域内。
 
-那么，如果解决这个问题呢？本文将通过一个现实的案例，给出一个可行的 etcd 集群恢复方案。
+kubeadm 官方建议通过 static pod 方式来部署外部 etcd 集群，可以简化运维管理，增强一致性。不过，为了更好的性能和隔离性，我们也可以考虑完全去掉 kubelet、CRI 等依赖，通过 Kubespray 默认的 host 模式来部署外部 etcd 集群，只需依赖systemd 服务即可，这也是生产下经过长期验证的部署方式。
 
-## 案例
+不过就算是已经做了，也有可能遇到服务器整体宕机导致 etcd 集群无法启动的情况。那么，如何进行灾难恢复（Disaster Recovery）？
+
+本文将通过一个现实的案例，给出一个生产下可行的 etcd 集群整体宕机后的恢复方案。
+
+## 实践案例
 
 核心组件版本：
 
 ```yaml
-Kubernetes: v1.31.7
-etcd Version: 3.5.19
+Kubernetes: 1.31.7
+etcd: 3.5.19
 ```
 
 在我的 HomeLab 中，[使用 Kubespray 在虚拟化环境中搭建一个 3 节点的 HA Kubernetes 集群]({{< relref "posts/cloud/kubernetes/kubespray.md" >}})，其中 etcd 模拟生产环境使用 systemd 管理。但由于频繁的关机、休眠，非常容易出现 etcd 集群整体不可用、Raft 状态错误或 WAL 损坏等情况。
 
 这里我们要分两种情况：
 
-### 第一种：还有 etcd 服务能够正常运行
+### 第一种：etcd 集群还能正常运行
 
-针对这种就比较好办，可以从健康节点导出快照，并通过 peer 自动恢复即可，此处不做赘述。
+针对这种就比较好办，可以从健康节点导出快照，再对故障节点执行 Member Recovery 即可，此处不做赘述。
 
 ### 第二种：所有节点 etcd 均无法正常运行
 
