@@ -79,7 +79,7 @@ outputs:
 markup:
   goldmark:
     renderer:
-      unsafe: false
+      unsafe: true
     extensions:
       cjk:
         enable: true

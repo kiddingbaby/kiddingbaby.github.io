@@ -2,3 +2,35 @@
   color: #007acc;
   border-bottom-color: transparent;
 }
+
+/* 表格优化 */
+.post-content table {
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0 3px; /* 行间距加大，分割感 */
+  font-size: 0.9rem;
+  overflow: hidden;  
+}
+
+.post-content th, 
+.post-content td {
+  padding: 12px 16px;
+  background: #fff;
+  color: #333;
+  text-align: left;
+}
+
+.post-content th {
+  background: #ebf2ff;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.post-content tr:nth-child(even) td {
+  background: #f7faff;
+}
+
+.post-content tr:hover td {
+  background: rgba(173, 191, 255, 0.25);
+}
+
