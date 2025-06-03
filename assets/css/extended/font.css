@@ -75,7 +75,7 @@ body {
   font-family: "Noto Sans", "Noto Sans SC", "Segoe UI", Roboto, "Helvetica Neue",
     "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Apple Color Emoji",
     sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.6;
   word-break: break-word;
   -webkit-font-smoothing: antialiased;
@@ -89,6 +89,6 @@ pre,
 .highlight {
   font-family: "Source Code Pro", Consolas, Menlo, Monaco, "Courier New",
     "Liberation Mono", monospace;
-  font-size: 1.05em;
+  font-size: 1.00em;
   line-height: 1.6;
 }
