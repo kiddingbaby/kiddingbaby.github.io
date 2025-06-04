@@ -17,31 +17,34 @@ Kuberspray 在此基础上集成了 Ansible 自动化编排，支持多节点、
 
 ## 如何构建高可用集群？
 
-在使用 Kubespary 之前，我们首先要熟悉 [kubeadm 部署 Kubernetes 集群的基本流程]({{< relref "posts/cloud/kubernetes/kubeadm.md" >}})，如果你看过 Kubespray 的实现，会发现其内部也是调用了 kubeadm 命令来完成部署的。
+在使用 Kubespary 之前，我们首先要熟悉 [kubeadm 部署 Kubernetes 集群的基本流程]({{< relref "posts/cloud/kubernetes/kubeadm.md" >}})，因为其内部也是调用了 kubeadm 命令来完成部署的。
 
 这里先列出构建高可用 Kubernetes 集群的整体流程：
 
-<!-- 1. 集群准备：
+1. 集群准备：
    * 服务器准备
-   * 网络连通测试
    * sudo 权限配置
    * ssh 配置
-   * 安装 kubelet/kubeadm
+   * 防火墙与内核设置
+   * 网络连通性验证
    * 安装容器运行时
+   * 安装 kubelet、kubeadm、kubectl
    * 离线镜像仓库配置（可选）
-   * 安装 kubectl
-2. 外部 etcd 集群搭建（systemd 管理）
-3. 容器运行时安装
-4. 负载均衡器
-5. etcd 集群搭建
-6. 控制平面节点初始化
-7. 证书管理
-8. 工作节点加入置
-9. 网络插件部署
-10. CoreDNS 部署
-11. 集群验证与健康检查 -->
+1. 搭建外部 etcd 高可用集群
+1. 设置控制平面负载均衡
+1. 初始化首个控制平面节点
+1. 加入其余控制平面节点
+1. 加入工作节点
+1. 部署 CNI 插件
+1. 安装核心插件
+1. 证书管理
+1. 集群验证与健康检查
+1. RBAC、账户与安全策略
+1. 日志与监控
 
-从上面的列表我们可以发现，kubeadm 并没有参与到整个高可用集群部署方案中，比如集群服务器上的必要准备工作，外部 etcd 集群的搭建，kube-apiserver 的负载均衡器配置等，而这些 Kubespray 都可以帮助我们来实现，利用 Ansible 脚本也可以大幅减少人工操作失误。
+从上面的列表我们可以发现，kubeadm 并没有参与到整个高可用集群部署方案中，比如集群服务器上的必要准备工作，外部 etcd 集群的搭建，kube-apiserver 的负载均衡器配置等。
+
+以上这些 Kubespray 都可以帮助我们来实现，利用 Ansible 脚本也可以大幅减少人工操作失误。
 
 下面我们使用 Kubespray 来尝试构建高可用 Kubernetes 集群。
 
@@ -52,6 +55,5 @@ Kuberspray 在此基础上集成了 Ansible 自动化编排，支持多节点、
 ```yaml
 Kubespray: 2.27.0
 Kubernetes: 1.31.7
-etcd: 3.5.19 (独立集群)
+etcd（外部集群）: 3.5.19 
 ```
-
