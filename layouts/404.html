@@ -1,0 +1,23 @@
+{{- define "main" }}
+<style>
+    .not-found {
+        cursor: pointer;
+        transition: opacity 0.1s ease;
+    }
+
+    .not-found.fade {
+        opacity: 0;
+    }
+</style>
+
+<div class="not-found" id="notFound">404</div>
+
+<script>
+    const el = document.getElementById('notFound');
+    el.onclick = () => {
+        el.classList.add('fade'); //
+        setTimeout(() => location.href = '/posts', 300);
+    };
+
+</script>
+{{- end }}{{/* end main */}}

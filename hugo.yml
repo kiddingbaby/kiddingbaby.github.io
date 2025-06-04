@@ -15,6 +15,7 @@ sitemap:
   changefreq: "daily"
   priority: 0.5
   filename: "sitemap.xml"
+  disable: false
 
 # 压缩
 minify:
@@ -129,46 +130,43 @@ security:
       - .*
 
 # 隐私设置
-# privacy:
-#   disqus:
-#     disable: false
-#   googleAnalytics:
-#     disable: false
-#     respectDoNotTrack: false
-#   instagram:
-#     disable: false
-#     simple: false
-#   twitter:
-#     disable: false
-#     enableDNT: false
-#     simple: false
-#   vimeo:
-#     disable: false
-#     enableDNT: false
-#     simple: false
-#   x:
-#     disable: false
-#     enableDNT: false
-#     simple: false
-#   youTube:
-#     disable: false
-#     privacyEnhanced: false
+privacy:
+  disqus:
+    disable: false
+  googleAnalytics:
+    disable: false
+    respectDoNotTrack: true
+  instagram:
+    disable: false
+    simple: false
+  twitter:
+    disable: false
+    enableDNT: true
+    simple: false
+  vimeo:
+    disable: false
+    enableDNT: true
+    simple: false
+  x:
+    disable: false
+    enableDNT: true
+    simple: false
+  youTube:
+    disable: false
+    privacyEnhanced: false
 
 # 集成服务
-# services:
-# disqus:
-#   shortname: ""
-# googleAnalytics:
-#   id: ""
-# instagram:
-#   accessToken: ""
-#   disableInlineCSS: false
-# rss:
-#   limit: -1
-# twitter:
-#   disableInlineCSS: false
-# x:
-#   disableInlineCSS: false
+services:
+  disqus:
+    shortname: ""
+  googleAnalytics:
+    id: "G-ZBLE5G77WJ"
+  rss:
+    limit: -1
+  twitter:
+    disableInlineCSS: false
+  x:
+    disableInlineCSS: false
 
 # PaperMod 变量
 params:
