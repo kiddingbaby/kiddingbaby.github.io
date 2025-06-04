@@ -1,5 +1,5 @@
 ---
-title: "kubeadm 部署 Kubernetes 集群的基本流程"
+title: "kubeadm 部署升级 Kubernetes 集群的基本流程"
 date: ""
 description: ""
 categories: ["云平台"]
@@ -22,7 +22,9 @@ kubeadm 是一个提供了 kubeadm init 和 kubeadm join 的工具，通过执�
 * `kubectl apply -f ...` 安装网络插件
 * `kubeadm join ...` 加入工作节点
 
-非常好理解，下面是 kubeadm 命令的详细介绍（本文仅介绍 init、join、upgrade、reset 几个核心命令）。
+非常容器理解，具体操作网上资源很多，不做赘述。
+
+下面是 kubeadm 命令的详细介绍（本文仅介绍 init、join、upgrade、reset 几个核心命令）。
 
 ## kubeadm init
 
@@ -73,6 +75,16 @@ kubeadm 是一个提供了 kubeadm init 和 kubeadm join 的工具，通过执�
 
 将 Kubernetes 集群升级到指定版本。
 
+| Phase 名称      | 功能描述                                     | 作用简述                                                          |
+| --------------- | -------------------------------------------- | ----------------------------------------------------------------- |
+| preflight       | 升级前预检                                   | 校验节点硬件、软件环境和集群状态，确保升级可行                    |
+| control-plane   | 升级控制平面                                 | 依次升级 kube-apiserver、controller-manager、scheduler 等关键组件 |
+| upload-config   | 将 kubeadm 和 kubelet 配置上传到 ConfigMap   |                                                                   |
+| kubelet-config  | 升级此节点的 kubelet 配置                    | 从集群中的 kubelet-config ConfigMap 下载                          |
+| bootstrap-token | 配置启动引导令牌和 cluster-info 的 RBAC 规则 |                                                                   |
+| addon           | 升级核心插件                                 | 升级 CoreDNS、kube-proxy 等插件保证集群功能正常                   |
+| post-upgrade    | 运行升级后的任务                             | 校验集群状态，清理临时文件及过时配置                              |
+
 ### upgrade diff
 
 显示哪些差异将被应用于现有的静态 Pod 资源清单。
@@ -80,6 +92,96 @@ kubeadm 是一个提供了 kubeadm init 和 kubeadm join 的工具，通过执�
 ### upgrade node
 
 升级集群中某个节点的命令。
+
+| Phase 名称     | 说明                                                                           |
+| -------------- | ------------------------------------------------------------------------------ |
+| preflight      | 升级前环境检查，确保节点状态符合升级要求。                                     |
+| kubelet-config | 应用并更新 kubelet 配置文件，准备重启 kubelet。                                |
+| control-plane  | 仅针对控制平面节点，升级关键组件（apiserver、controller-manager、scheduler）。 |
+| addon          | 升级集群关键插件（如 CoreDNS、kube-proxy）保证功能兼容。                       |
+| post-upgrade   | 升级后检查节点状态，清理临时数据，验证升级成功。                               |
+
+**集群升级操作流程：**
+
+1. 备份关键数据和配置
+    * 备份 etcd 数据
+    * 备份控制平面节点的 `admin.conf` 和所有 kubeconfig 文件
+1. 检查升级计划
+
+     ```bash
+     kubeadm upgrade plan
+     ```
+
+1. 升级第一个控制平面节点
+    * 升级 kubeadm
+
+      ```bash
+      apt install -y kubeadm=<version>
+      ```
+
+    * 执行第一个控制平面升级：
+
+        ```bash
+        kubeadm upgrade apply <version>
+        ```
+
+    * 升级 kubelet 和 kubectl，重启 kubelet：
+
+        ```bash
+        apt install -y kubelet=<version> kubectl=<version>
+        apt-mark hold kubelet kubectl
+        systemctl daemon-reload
+        systemctl restart kubelet
+        ```
+
+    * 验证节点状态和集群健康：
+
+        ```bash
+        kubectl get nodes
+        kubectl get pods -n kube-system
+        ```
+
+1. 逐一升级剩余控制平面节点
+    * 升级 kubeadm（同上）
+    * 执行剩余控制平面升级
+
+        ```bash
+        kubeadm upgrade node
+        ```
+
+    * 升级 kubelet/kubectl，重启 kubelet（同上）
+    * 验证节点状态和集群健康
+1. 逐一升级所有工作节点
+    * 升级 kubeadm（同上）
+    * 执行工作节点升级：
+
+        ```bash
+        kubeadm upgrade node
+        ```
+
+    * 升级 kubelet 和 kubectl，重启 kubelet（同上）
+    * 验证节点状态
+1. 升级集群插件和附加组件
+    * 升级 CoreDNS（通常由 kubeadm 自动完成）
+    * 升级 kube-proxy
+
+        ```bash
+        kubectl -n kube-system edit ds kube-proxy
+        # 修改 image 字段，例如：
+        # image: registry.k8s.io/kube-proxy:v1.31.9
+        kubectl rollout status ds kube-proxy -n kube-system
+        ```
+
+    * 升级 CNI（视插件类似而定）
+1. 查看集群节点、Pod、etcd 各组件状态，并检查日志
+
+    ```bash
+    kubectl get nodes -o wide
+    kubectl get pods -A
+    ETCDCTL_API=3 etcdctl --endpoints=... endpoint health
+    ```
+
+注：升级过程中建议先待升级节点，逐节点滚动升级，确保集群始终保持高可用。
 
 ## kubeadm reset
 
