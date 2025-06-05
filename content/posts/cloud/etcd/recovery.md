@@ -1,12 +1,15 @@
 ---
 title: "Etcd 集群整体宕机的恢复方案"
-date: ""
-description: ""
+date: 2025-01-01T09:00:00+08:00
+lastmod: 2025-06-05T12:00:00+08:00
+description: "当 etcd 高可用集群全部节点宕机时，如何通过快照恢复、节点替换与数据一致性检查，完成 etcd 的灾难恢复。"
 categories: ["云平台"]
-tags: ["etcd"]
+tags: ["etcd", "灾备", "Kubernetes"]
 series: ["灾备方案"]
+keywords: ["etcd 故障恢复", "Kubernetes etcd 恢复", "etcd snapshot restore", "etcd 集群整体宕机"]
 ShowToc: true
-TocOpen: false
+TocOpen: true
+draft: false
 ---
  
 ## 背景

@@ -1,12 +1,15 @@
 ---
-title: "kubeadm 部署升级 Kubernetes 集群的基本流程"
-date: ""
-description: ""
+title: "kubeadm 部署与升级 Kubernetes 集群的基本流程"
+date: 2023-01-01T09:00:00+08:00
+lastmod: 2025-06-05T12:00:00+08:00
+description: "使用 kubeadm 快速部署和升级 Kubernetes 集群的标准流程与关键命令详解，涵盖 init、join、upgrade、reset 等阶段。"
 categories: ["云平台"]
-tags: ["Kubernetes", "kubeadm"]
+tags: ["Kubernetes", "kubeadm", "集群部署", "集群升级"]
 series: ["部署方案"]
+keywords: ["kubeadm", "Kubernetes 集群部署", "Kubernetes 升级", "高可用集群"]
 ShowToc: true
-TocOpen: false
+TocOpen: true
+draft: false
 ---
 
 ## kubeadm 简介

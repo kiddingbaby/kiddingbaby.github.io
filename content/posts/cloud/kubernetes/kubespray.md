@@ -1,12 +1,15 @@
 ---
-title: "基于 Kubespary 部署高可用 Kubernetes 集群"
-date: ""
-description: ""
+title: "基于 Kubespray 部署高可用 Kubernetes 集群"
+date: 2023-01-01T10:00:00+08:00
+lastmod: 2025-06-05T12:00:00+08:00
+description: "通过 Kubespray 快速构建 Kubernetes 高可用集群，支持多节点部署、负载均衡、外部 etcd，适用于生产环境。"
 categories: ["云平台"]
-tags: ["Kubernetes", "Kubespray"]
+tags: ["Kubernetes", "Kubespray", "集群部署", "高可用"]
 series: ["部署方案"]
+keywords: ["Kubespray 高可用", "Kubernetes 生产部署", "多节点集群", "Kubernetes 集群搭建"]
 ShowToc: true
-TocOpen: false
+TocOpen: true
+draft: false
 ---
 
 ## 为什么要使用 Kubespray?
