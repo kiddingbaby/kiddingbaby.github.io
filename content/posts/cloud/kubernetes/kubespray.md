@@ -12,13 +12,13 @@ TocOpen: true
 draft: false
 ---
 
-## 为什么要使用 Kubespray?
+## 为什么要使用 Kubespray
 
 kubeadm 是一种受官方支持且符合 CNCF 标准的部署工具，专注于 Kubernetes 集群本身的初始化和配置，但是对环境准备、运维自动化支持有限。
 
 Kubespray 在此基础上集成了 Ansible 自动化编排，支持多节点、高可用集群快速部署，同时兼顾集群生命周期管理，适合生产环境和复杂网络环境下的批量部署与维护。
 
-## 如何构建高可用集群？
+## 如何构建高可用集群
 
 在使用 Kubespray 之前，我们首先要熟悉 [kubeadm 部署 Kubernetes 集群的基本流程]({{< relref "posts/cloud/kubernetes/kubeadm.md" >}})，因为其内部也是调用了 kubeadm 命令来完成部署的。
 
@@ -60,9 +60,9 @@ Kubespray 在此基础上集成了 Ansible 自动化编排，支持多节点、�
 
 以上这些 Kubespray 都可以帮助我们来实现，利用 Ansible 脚本也可以大幅减少人工操作失误。
 
-下面我们使用 Kubespray 来尝试构建高可用 Kubernetes 集群，本文仅给出基本的部署流程。
-
 ## 实践案例
+
+下面我们将使用 Kubespray 在 HomeLab 中来尝试构建高可用 Kubernetes 集群。
 
 核心组件版本：
 
@@ -170,3 +170,9 @@ Kubespray 依赖 Ansible，因此我们首先要在主控机上部署一个 Pyth
    kubectl top nodes
    kubectl get pods -A
    ```
+
+## 其他建议
+
+为了保持对官方稳定版本的持续追踪，建议将 Kubespray 作为子模块集成到企业的主代码库中，并采用 Git Submodule 管理 Kubespray 仓库。这样做既可以稳定获取官方的更新，又可以方便维护自定义扩展。
+
+对于 Kubernetes 资源的自定义扩展，个人建议仅采用 Kustomize 或 Helm 进行管理，对于 Kubespray 本身尽可能不要做过多的二次开发。
