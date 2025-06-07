@@ -125,7 +125,7 @@ security:
   http:
     mediaTypes: null
     methods:
-      - (?i)GET
+      - (?i)GET|POST
     urls:
       - .*
 
