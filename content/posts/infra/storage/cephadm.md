@@ -334,7 +334,7 @@ Rook: v1.17.0
 
     要使用 CephFS 文件系统，需要一个或多个 MDS（Metadata Server）守护进程。如果使用较新的 `ceph fs volume` 接口来创建新的文件系统，这些守护进程会自动创建。
 
-    1. 创建 CephFS 卷（含 MDS 部署）
+    1. 创建 CephFS 卷
 
         ```bash
         ceph fs volume create cephfs --placement="count=2"
@@ -342,6 +342,34 @@ Rook: v1.17.0
 
         * `cephfs`：为 CephFS 文件系统指定的名称
         * `--placement="count=2"`：告诉 cephadm 在集群中部署 2 个 MDS 守护进程（1 active, 1 standby），cephadm 会自动选择合适的节点来部署这些守护进程
+
+    1. 部署 MDS
+
+        ```bash
+        ceph orch apply mds cephfs 'kube[1-3]'
+        ```
+
+    1. 验证 cephfs 状态
+
+        ```bash
+        ceph fs status
+        ```
+
+        默认情况下会有一台为 active，其余节点均为 standby：
+
+        ```bash
+        cephfs - 0 clients
+        ======
+        RANK  STATE           MDS             ACTIVITY     DNS    INOS   DIRS   CAPS  
+        0    active  cephfs.kube2.tekede  Reqs:    0 /s    10     13     12      0   
+            POOL           TYPE     USED  AVAIL  
+        cephfs.cephfs.meta  metadata  96.0k  9697M  
+        cephfs.cephfs.data    data       0   9697M  
+            STANDBY MDS      
+        cephfs.kube1.kjracz  
+        cephfs.kube3.rdjvxy  
+        MDS version: ceph version 19.2.2 (0eceb0defba60152a8182f7bd87d164b639885b8) squid (stable)
+        ```
 
 1. 支持 NFS
 
