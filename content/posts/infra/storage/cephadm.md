@@ -131,16 +131,36 @@ Rook: v1.17.0
     ceph status
     ```
 
+    应该会看到一个 mon 和 一个 mgr 进程：
+
+    ```bash
+    cluster:
+        id:     852837fa-46a1-11f0-a6ed-00505639e7ae
+        health: HEALTH_WARN
+                OSD count 0 < osd_pool_default_size 3
+    
+    services:
+        mon: 1 daemons, quorum kube1 (age 2m)
+        mgr: kube1.iuiljm(active, since 54s)
+        osd: 0 osds: 0 up, 0 in
+    
+    data:
+        pools:   0 pools, 0 pgs
+        objects: 0 objects, 0 B
+        usage:   0 B used, 0 B / 0 B avail
+        pgs:   
+    ```
+
 1. 添加其他主机到集群中：
 
-    * 将集群的公共 SSH 密钥安装到新主机 root 用户的 authorized_keys 文件中：
+    将集群的公共 SSH 密钥安装到新主机 root 用户的 authorized_keys 文件中：
   
     ```bash
     ssh-copy-id -f -i /etc/ceph/ceph.pub root@kube2
     ssh-copy-id -f -i /etc/ceph/ceph.pub root@kube3
     ```
 
-    * 通知 Ceph 有新节点加入集群：
+    通知 Ceph 有新节点加入集群：
 
     ```bash
     ceph orch host add kube2 192.168.0.151 --labels _admin
@@ -148,6 +168,32 @@ Rook: v1.17.0
     ```
 
     📌注：默认情况下，_admin 标签会让 cephadm 在该主机的 /etc/ceph 目录下维护一份 ceph.conf 配置文件和 client.admin 密钥环文件，适用于部署 MON、MGR 等关键服务节点。
+
+    可以通过此命令查看各节点服务列表：
+
+    ```bash
+    ceph orch ls
+    ```
+
+    如果发现输出结果有点不符预期，那是因为 `cephadm boostrap` 默认策略下 mon 数量为 5，由于我这里只有 3 个节点，所以需要手动将 mon 数量调整成 3：
+
+    ```bash
+    ceph orch apply mon count:3
+    ```
+
+    输出结果如下：
+
+    ```bash
+    NAME           PORTS        RUNNING  REFRESHED  AGE  PLACEMENT  
+    alertmanager   ?:9093,9094      1/1  30s ago    5m   count:1    
+    ceph-exporter                   3/3  30s ago    5m   *          
+    crash                           3/3  30s ago    6m   *          
+    grafana        ?:3000           1/1  30s ago    5m   count:1    
+    mgr                             2/2  30s ago    6m   count:2    
+    mon                             3/3  30s ago    1s   count:3    
+    node-exporter  ?:9100           3/3  30s ago    5m   *          
+    prometheus     ?:9095           1/1  30s ago    5m   count:1    
+    ```
 
 1. 添加 OSD 存储：
 
@@ -166,7 +212,7 @@ Rook: v1.17.0
         * 设备容量必须大于 5 GB
         * Ceph 不会在不符合条件的设备上创建 OSD
 
-    1. 执行以下命令以预演配置变更：
+    1. 执行以下命令以预演配置变更（可能需要执行两次也会显示结果）：
 
         ```bash
         ceph orch apply osd --all-available-devices --dry-run
@@ -177,23 +223,129 @@ Rook: v1.17.0
           * 新加入集群的磁盘会被自动发现并用于创建新的 OSD
           * 如果某个 OSD 被移除且对应的 LVM 物理卷被清理（zap），Ceph 也会自动在该设备上重新创建新的 OSD
 
-    1. 继续执行完成 osd 创建，敏感环境中建议使用 `--unmanaged` 参数关闭自动创建，改用手动管理以避免误操作：
+    1. 继续执行完成 osd 创建，敏感环境中可以追加 `--unmanaged` 参数改用手动管理以避免误操作：
 
         ```bash
-        ceph orch apply osd --all-available-devices --unmanaged=true
+        ceph orch apply osd --all-available-devices
         ```
 
-    1. 部署完成后，检查集群状态验证
+    1. 或者你也可以手动指定，这样更安全可控（可选）
 
         ```bash
-        ceph -s
+        ceph orch daemon add osd *<host>*:*<device-path>*
+        ```
+
+    1. 稍微一会，检查集群状态，显示已有 3 个 osd 加入到集群中，且为 up 状态：
+
+        ```bash
+        cluster:
+            id:     852837fa-46a1-11f0-a6ed-00505639e7ae
+            health: HEALTH_OK
+        
+        services:
+            mon: 3 daemons, quorum kube1,kube2,kube3 (age 22m)
+            mgr: kube1.iuiljm(active, since 24m), standbys: kube2.mpdvnm
+            osd: 3 osds: 3 up (since 68s), 3 in (since 2m)
+        
+        data:
+            pools:   1 pools, 1 pgs
+            objects: 2 objects, 449 KiB
+            usage:   81 MiB used, 30 GiB / 30 GiB avail
+            pgs:     1 active+clean  
         ```
 
 1. 开启内存自动调节选项
 
     cephadm 引导集群时默认会启用 `osd_memory_target_autotune = true`，并设置 `mgr/cephadm/autotune_memory_target_ratio = 0.7`。也就是说，每台主机的 OSD 默认最多使用该节点总内存的 70%，用于 BlueStore 的缓存，当你的存储集群上有其他服务时，可建议按需调小该参数，防止 OOM。
 
-1. TODO
+    ```bash
+    ceph config set osd osd_memory_target_autotune true
+    ceph config set mgr mgr/cephadm/autotune_memory_target_ratio 0.3
+    ```
+
+1. 开启 dashboard
+
+    1. 通过以下命令启用 dashboard：
+
+    ```bash
+    ceph mgr module enable dashboard
+    ```
+
+    1. 设置 SSL/TLS 支持，这里仅使用自签名证书：
+
+    ```bash
+    ceph dashboard create-self-signed-cert
+    ```
+
+    1. 创建一个管理员用户 admin，这里使用 `--force-password` 绕过密码策略检查，并使用 `--pwd_update_required` 确保首次登录后强制要求用户更改密码：
+
+    ```bash
+    echo "123456" > admin.pass
+    ceph dashboard ac-user-create --force-password --pwd_update_required admin -i admin.pass administrator
+    ```
+
+    1. 目前我们的集群里有两个 mgr，为了提高可用性，我们需要引入代理服务，建议先执行以下命令：
+
+    ```bash
+    ceph config set mgr mgr/dashboard/standby_behaviour "error"
+    ceph config set mgr mgr/dashboard/standby_error_status_code 503
+    ```
+
+    📌注：上述命令会让非 active 的 mgr dashboard 不响应 303 Redirect，而是自定义相应 503 状态码，否则代理服务在 dashboard failover 后将收到错误跳转地址。
+
+    1. 官方给的是 haproxy 示例，我的环境仅部署了 openresty，因此这里给出 openresty 的基本配置，如果两个节点以上建议引入 health check 实现动态 upstream：
+
+    ```bash
+    upstream ceph-dashboard-backend {
+        server 192.168.0.150:8443;
+        server 192.168.0.151:8443;
+    }
+
+    server {
+        listen 443 ssl;
+        server_name ceph-dashboard.example.internal;
+
+        include /etc/openresty/conf.d/ssl.conf;
+
+        access_log /var/log/openresty/ceph-dashboard-access.log;
+        error_log  /var/log/openresty/ceph-dashboard-error.log;
+
+        location / {
+            proxy_pass https://ceph-dashboard-backend;
+
+            proxy_ssl_server_name on;
+            proxy_ssl_verify off;
+
+            proxy_connect_timeout 5s;
+            proxy_send_timeout 30s;
+            proxy_read_timeout 30s;
+
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+
+            proxy_next_upstream error timeout http_503;
+        }
+    }
+    ```
+
+1. 使用 CephFS
+
+    要使用 CephFS 文件系统，需要一个或多个 MDS（Metadata Server）守护进程。如果使用较新的 `ceph fs volume` 接口来创建新的文件系统，这些守护进程会自动创建。
+
+    1. 创建 CephFS 卷（含 MDS 部署）
+
+        ```bash
+        ceph fs volume create cephfs --placement="count=2"
+        ```
+
+        * `cephfs`：为 CephFS 文件系统指定的名称
+        * `--placement="count=2"`：告诉 cephadm 在集群中部署 2 个 MDS 守护进程（1 active, 1 standby），cephadm 会自动选择合适的节点来部署这些守护进程
+
+1. 支持 NFS
+
+1. 支持 RGWs
 
 ## ceph 集群的卸载与清除
 
