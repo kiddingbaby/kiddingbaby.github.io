@@ -2,10 +2,9 @@
 title: "kubeadm 部署与升级 Kubernetes 集群的基本流程"
 date: 2023-01-01T09:00:00+08:00
 lastmod: 2025-06-05T12:00:00+08:00
-description: "使用 kubeadm 快速部署和升级 Kubernetes 集群的标准流程与关键命令详解，涵盖 init、join、upgrade、reset 等阶段。"
 categories: ["云平台"]
 tags: ["Kubernetes", "kubeadm", "集群部署", "集群升级"]
-series: ["部署方案"]
+series: ["K8s"]
 keywords: ["kubeadm", "Kubernetes 集群部署", "Kubernetes 升级", "高可用集群"]
 ShowToc: true
 TocOpen: true
@@ -14,7 +13,9 @@ draft: false
 
 ## kubeadm 简介
 
-kubeadm 是一个提供了 kubeadm init 和 kubeadm join 的工具，通过执行必要的操作来启动和运行最小可用集群。按照设计，它只关注启动引导，而非配置机器。除此之外，kubeadm 还支持 upgrade、reset 等基础操作。
+kubeadm 是一种受官方支持且符合 CNCF 标准的部署工具，专注于 Kubernetes 集群本身的初始化和配置。
+
+kubeadm 提供了 kubeadm init 和 kubeadm join 命令，通过执行必要的操作即可启动和运行最小可用集群。按照设计，它只关注启动引导，而非配置机器。除此之外，kubeadm 还支持 upgrade、reset 等基础操作。
 
 ## kubeadm 的部署流程
 

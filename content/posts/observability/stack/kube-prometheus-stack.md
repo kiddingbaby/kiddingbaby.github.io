@@ -5,7 +5,7 @@ lastmod: 2025-06-07T08:00:00+08:00
 description: "使用 kube-prometheus-stack 部署可扩展、具备高可用能力的 Kubernetes 监控告警系统，支持多副本、告警通知、Grafana 可视化等。"
 categories: ["云平台"]
 tags: ["Kubernetes", "Prometheus", "kube-prometheus-stack", "监控", "告警"]
-series: ["部署方案"]
+series: ["Observability"]
 keywords: ["Prometheus 高可用", "kube-prometheus-stack 部署", "Alertmanager HA", "Grafana 持久化", "Slack 告警"]
 ShowToc: true
 TocOpen: true
