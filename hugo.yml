@@ -103,7 +103,7 @@ markup:
     codeFences: true
     guessSyntax: true
     lineNos: false
-    style: nord
+    tabWidth: 4
 
 # 安全
 security:
