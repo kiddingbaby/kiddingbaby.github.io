@@ -8,7 +8,7 @@ series: ["Ceph"]
 keywords: ["CephFS 部署", "NFS Ganesha", "分布式文件存储"]
 ShowToc: true
 TocOpen: true
-draft: true
+draft: false
 ---
 
 ## CephFS 是什么

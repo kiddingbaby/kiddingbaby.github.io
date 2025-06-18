@@ -31,7 +31,7 @@ Kubernetes: 1.31.7
 etcd: 3.5.19
 ```
 
-在我的实验环境中，[使用 Kubespray 在虚拟化环境中搭建一个 3 节点的 HA Kubernetes 集群]({{< relref "posts/cloud/k8s/kubespray.md" >}})，其中外部 etcd 使用 systemd 管理。但由于频繁的关机、休眠，非常容易出现 etcd 集群整体不可用、Raft 状态错误或 WAL 损坏等情况。
+在我的实验环境中，[使用 Kubespray 在虚拟化环境中搭建一个 3 节点的 HA Kubernetes 集群]({{< relref "posts/cloud/k8s/02-kubespray.md" >}})，其中外部 etcd 使用 systemd 管理。但由于频繁的关机、休眠，非常容易出现 etcd 集群整体不可用、Raft 状态错误或 WAL 损坏等情况。
 
 这里我们要分两种情况：
 

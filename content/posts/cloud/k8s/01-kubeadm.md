@@ -1,5 +1,5 @@
 ---
-title: "kubeadm 部署与升级 Kubernetes 集群的基本流程"
+title: "K8s: 01-kubeadm 部署与升级 Kubernetes 集群的基本流程"
 date: 2023-01-01T09:00:00+08:00
 lastmod: 2025-06-05T12:00:00+08:00
 categories: ["云平台"]

@@ -8,7 +8,7 @@ series: ["Ceph"]
 keywords: ["Ceph Dashboard 部署", "Ceph MGR Web 界面", "Ceph 运维监控"]
 ShowToc: true
 TocOpen: true
-draft: true
+draft: false
 ---
 
 ## 启用 MGR Dashboard

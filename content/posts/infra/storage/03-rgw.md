@@ -8,7 +8,7 @@ series: ["Ceph"]
 keywords: ["Ceph RGW 部署", "S3 兼容存储", "cephadm 对象存储"]
 ShowToc: true
 TocOpen: true
-draft: true
+draft: false
 ---
 
 ## RGW 是什么

@@ -1,5 +1,5 @@
 ---
-title: "Kubespray 中的离线部署方案"
+title: "K8s: 03-Kubespray 中的离线部署方案"
 date: 2025-06-14T10:00:00+08:00
 lastmod: 2025-06-14T10:00:00+08:00
 categories: ["云平台"]

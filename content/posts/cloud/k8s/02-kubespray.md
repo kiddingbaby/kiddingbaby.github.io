@@ -1,5 +1,5 @@
 ---
-title: "基于 Kubespray 部署高可用 Kubernetes 集群"
+title: "K8s: 02-基于 Kubespray 部署高可用 Kubernetes 集群"
 date: 2023-01-01T10:00:00+08:00
 lastmod: 2025-06-05T12:00:00+08:00
 description: "通过 Kubespray 快速构建支持多节点、高可用、负载均衡与外部 etcd 的 Kubernetes 集群，适用于生产环境部署。"
@@ -14,7 +14,7 @@ draft: false
 
 ## 为什么要使用 Kubespray
 
-使用 Kubespray 之前，我们首先要熟悉 [kubeadm 部署 Kubernetes 集群的基本流程]({{< relref "posts/cloud/k8s/kubeadm.md" >}})。
+使用 Kubespray 之前，我们首先要熟悉 [kubeadm 部署 Kubernetes 集群的基本流程]({{< relref "posts/cloud/k8s/01-kubeadm.md" >}})。
 
 kubeadm 对环境准备、运维自动化支持有限，Kubespray 在其内部通过 Ansible 自动化编排 kubeadm 相关命令，并在此基础上支持多节点、高可用集群快速部署，同时兼顾集群生命周期管理，适合生产环境和复杂网络环境下的批量部署与维护。
 
@@ -185,7 +185,7 @@ Kubespray 依赖 Ansible，因此我们首先要在主控机上部署一个 Pyth
    kubectl get pods -A
    ```
 
-离线部署可以参考这篇文章：[Kubespray 中的离线部署方案]({{< relref "posts/cloud/k8s/kubespray.md" >}})。
+离线部署可以参考这篇文章：[Kubespray 中的离线部署方案]({{< relref "posts/cloud/k8s/03-kubespray-offline.md" >}})。
 
 ## 其他建议
 

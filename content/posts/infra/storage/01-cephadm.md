@@ -8,7 +8,7 @@ series: ["Ceph"]
 keywords: ["cephadm 高可用", "Ceph 存储集群", "Ceph 自动化部署"]
 ShowToc: true
 TocOpen: true
-draft: true
+draft: false
 ---
 
 ## 各种 Ceph 部署工具比较
