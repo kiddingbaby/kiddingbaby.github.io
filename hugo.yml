@@ -51,12 +51,9 @@ languages:
         - name: 分类
           url: series/
           weight: 2
-        - name: 标签
-          url: tags/
-          weight: 3
         - name: 归档
           url: archives
-          weight: 4
+          weight: 3
     params:
       languageAltTitle: 中文
       profileMode:

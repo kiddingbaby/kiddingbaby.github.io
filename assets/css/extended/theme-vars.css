@@ -1,4 +1,5 @@
 :root {
-    --main-width: 1024px;
+    --main-width: 1366px;
+    --nav-width: 1366px;
     --radius: 6px;
 }
