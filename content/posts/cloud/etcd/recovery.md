@@ -48,20 +48,13 @@ etcd: 3.5.19
     ```bash
     systemctl stop etcd
     systemctl stop kubelet
-    systemctl stop kube-apiserver
-    ```
-
-1. 备份原始 etcd 数据并清空数据目录。
-
-    ```bash
-    mkdir -p /var/lib/etcd.bak
-    mv /var/lib/etcd/* /var/lib/etcd.bak/
+    systemctl stop kube-apiserver（如果是 systemd 管理）
     ```
 
 1. 在 每个节点 执行以下命令查看快照信息。
 
     ```bash
-    etcdutl snapshot status /var/lib/etcd.bak/member/snap/db
+    etcdutl snapshot status /var/lib/etcd/member/snap/db
     ```
 
     输出结果：
@@ -72,7 +65,14 @@ etcd: 3.5.19
 
     上面的输出分别表示：快照的哈希值、快照对应的 etcd revision（版本号）、快照中存储的 key 数量、快照文件大小。我们应选择 revision 最大的快照来执行恢复，最大程度减少数据损失。
 
-1. 选定快照后，将该快照文件同步到其他机器对应目录下，并分别执行以下命令执行恢复：
+1. 备份原始 etcd 数据并清空数据目录。
+
+    ```bash
+    mkdir -p /var/lib/etcd.bak
+    mv /var/lib/etcd/* /var/lib/etcd.bak/
+    ```
+
+1. 选定快照后，将该快照文件同步到其他机器对应目录下，并 **分别在每个节点** 执行以下命令执行恢复：
 
     ```bash
     etcdutl snapshot restore /var/lib/etcd.bak/member/snap/db --data-dir /var/lib/etcd --name <当前节点的etcd的名称标识> \

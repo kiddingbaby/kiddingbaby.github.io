@@ -196,3 +196,73 @@ kubeadm 提供了 kubeadm init 和 kubeadm join 命令，通过执行必要的�
 | preflight          | 重置预检           |
 | remove-etcd-member | 移除本地 etcd 成员 |
 | cleanup-node       | 清理节点           |
+
+## 系统证书详情
+
+K8s 系统证书默认存放在 `/etc/kubernetes/pki` 目录下，通常由 kubeadm 初始化和维护。
+
+* 证书生成流程
+
+    初始化前，可以通过 `--dry-run` 参数查看生成详情。
+
+    ```bash
+    kubeadm init phase certs all --dry-run
+    ```
+
+    示例输出：
+
+    ```bash
+    [certs] Using certificateDir folder "/etc/kubernetes/tmp/kubeadm-init-dryrun2727823051"
+    [certs] Using existing ca certificate authority
+    [certs] Using existing apiserver certificate and key on disk
+    [certs] Using existing apiserver-kubelet-client certificate and key on disk
+    [certs] Using existing front-proxy-ca certificate authority
+    [certs] Using existing front-proxy-client certificate and key on disk
+    [certs] Generating "etcd/ca" certificate and key
+    [certs] Generating "etcd/server" certificate and key
+    [certs] etcd/server serving cert is signed for DNS names [kube1 localhost] and IPs [192.168.0.150 127.0.0.1 ::1]
+    [certs] Generating "etcd/peer" certificate and key
+    [certs] etcd/peer serving cert is signed for DNS names [kube1 localhost] and IPs [192.168.0.150 127.0.0.1 ::1]
+    [certs] Generating "etcd/healthcheck-client" certificate and key
+    [certs] Generating "apiserver-etcd-client" certificate and key
+    [certs] Generating "sa" key and public key
+    ```
+
+* 证书到期时间
+
+    ```bash
+    kubeadm certs check-expiration
+    ```
+
+    示例输出：
+
+    ```bash
+    CERTIFICATE                EXPIRES                  RESIDUAL TIME   CERTIFICATE AUTHORITY   EXTERNALLY MANAGED
+    admin.conf                 Jun 15, 2026 16:55 UTC   361d            ca                      no      
+    apiserver                  Jun 15, 2026 16:55 UTC   361d            ca                      no      
+    apiserver-kubelet-client   Jun 15, 2026 16:55 UTC   361d            ca                      no      
+    controller-manager.conf    Jun 15, 2026 16:55 UTC   361d            ca                      no      
+    front-proxy-client         Jun 15, 2026 16:55 UTC   361d            front-proxy-ca          no      
+    scheduler.conf             Jun 15, 2026 16:55 UTC   361d            ca                      no      
+    super-admin.conf           Jun 15, 2026 16:55 UTC   361d            ca                      no      
+
+    CERTIFICATE AUTHORITY   EXPIRES                  RESIDUAL TIME   EXTERNALLY MANAGED
+    ca                      Jun 13, 2035 16:55 UTC   9y              no      
+    front-proxy-ca          Jun 13, 2035 16:55 UTC   9y              no      
+    ```
+
+## 非系统证书
+
+上面提到的都是系统证书，除此之外的绝大部分非系统组件证书，都可以通过 Cert-manager 来管理，证书均为动态签发与续期，无需人工干预。
+
+* 查看所有证书状态：
+
+  ```bash
+  kubectl get certificate -A
+  ```
+
+* 查看签发历史：
+
+  ```bash
+  kubectl get certificaterequest -AA
+  ```
