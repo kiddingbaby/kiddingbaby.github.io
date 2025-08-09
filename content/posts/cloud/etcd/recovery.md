@@ -1,7 +1,6 @@
 ---
 title: "Etcd 集群整体宕机的恢复方案"
 date: 2025-01-01T09:00:00+08:00
-lastmod: 2025-06-05T12:00:00+08:00
 description: "当 etcd 高可用集群全部节点宕机时，如何通过快照恢复、节点替换与数据一致性检查，完成 etcd 的灾难恢复。"
 categories: ["云平台"]
 tags: ["etcd", "灾备", "Kubernetes"]
@@ -16,11 +15,13 @@ draft: false
 
 Kubernetes 集群目前并没有提供关机重启的选项，因此维护 etcd 集群的稳定至关重要，在生产环境下推荐以 External 方式来部署 etcd 集群，并放在单独的区域内。
 
-Kubespray 默认使用 host 模式来部署外部 etcd 集群，只需依赖 systemd 即可，这是生产下经过长期验证的部署方式。kubeadm 官方建议通过 static pod 方式来部署外部 etcd 集群，这样的优势是在云原生环境下更具一致性，但缺点是额外增加了 kubelet、CRI 等依赖，在已有 Kubespray 支持的前提下，个人推荐直接使用 host 模式来部署外部 etcd。
+Kubespray 默认使用 host 模式来部署外部 etcd 集群，只需依赖 systemd 即可，这是生产下经过长期验证的部署方式，缺点是增加了证书管理成本。kubeadm 官方建议通过 static pod 方式来部署外部 etcd 集群，优势是在云原生环境下更具一致性，但缺点是额外增加了 kubelet、CRI 等依赖。
 
-但是天有不测风云，总是有可能会遇到服务器整体宕机，从而导致 etcd 集群无法启动的情况。那么，如何进行灾难恢复（Disaster Recovery）呢？
+在已有 Kubespray 支持的前提下，个人推荐先使用 host 模式来部署外部 etcd，熟悉 K8s 生态后再使用 static pod 模式来部署。
 
-本文将通过一个现实的案例，给出一个生产下可行的 etcd 集群整体宕机后的恢复方案。
+天有不测风云，服务器整体宕机总是有可能会遇到，导致 etcd 集群无法启动。那么，如何进行灾难恢复（Disaster Recovery）呢？
+
+本文将通过一个案例，给出一个生产下可行的 etcd 集群整体宕机后的恢复方案。
 
 ## 实践案例
 
@@ -41,17 +42,21 @@ etcd: 3.5.19
 
 ### 第二种：所有节点 etcd 均无法正常运行
 
+#### 场景一：host 模式部署
+
 这时要做以下几件事。
 
-1. 确认所有 etcd 服务关闭，并关闭 kubelet 和 kube-apiserver 服务避免干扰。
+1. 确认所有 etcd 服务关闭，并关闭 kubelet 服务。
 
     ```bash
     systemctl stop etcd
     systemctl stop kubelet
-    systemctl stop kube-apiserver（如果是 systemd 管理）
+    # 如果你的 kube-apiserver、kube-controller-manager、kube-scheduler 等服务是由 systemd 管理，也建议关闭，避免干扰。
     ```
 
-1. 在 每个节点 执行以下命令查看快照信息。
+1. 如果已有备份导出快照，可以直接参考后面的恢复步骤。
+
+1. 如果没有备份，可以在 每个节点 执行以下命令查看快照信息。
 
     ```bash
     etcdutl snapshot status /var/lib/etcd/member/snap/db
@@ -65,6 +70,8 @@ etcd: 3.5.19
 
     上面的输出分别表示：快照的哈希值、快照对应的 etcd revision（版本号）、快照中存储的 key 数量、快照文件大小。我们应选择 revision 最大的快照来执行恢复，最大程度减少数据损失。
 
+    **注意：此快照文件是 etcd 自动生成的全量快照，依赖 WAL 和集群状态，所以此恢复方案依旧有较大失败、丢数据的风险，强烈建议使用定期备份的快照恢复！**
+
 1. 备份原始 etcd 数据并清空数据目录。
 
     ```bash
@@ -76,7 +83,7 @@ etcd: 3.5.19
 
     ```bash
     etcdutl snapshot restore /var/lib/etcd.bak/member/snap/db --data-dir /var/lib/etcd --name <当前节点的etcd的名称标识> \
-        --initial-cluster etcd1=https://192.168.0.150:2380,etcd2=https://192.168.0.151:2380,etcd3=https://192.168.0.152:2380 \
+        --initial-cluster <etcd1-name>=https://192.168.0.150:2380,<etcd2-name>=https://192.168.0.151:2380,<etcd3-name>=https://192.168.0.152:2380 \
         --initial-advertise-peer-urls https://<当前节点的IP地址>:2380 \
         --skip-hash-check=true
     ```
@@ -117,3 +124,49 @@ etcd: 3.5.19
     systemctl start kubelet
     systemctl start kube-apiserver
     ```
+
+#### 场景二：static pod 模式部署
+
+此场景和 host 模式类似，但会强依赖 kubelet 这个 systemd 进程。
+
+1. 确认所有 etcd 服务关闭，并关闭 kubelet 服务。
+
+    ```bash
+    systemctl stop kubelet
+    nerdctl stop <etcd-container-id>
+    ps -ef | grep etcd
+    ```
+
+1. 要注意的是，如果你没有历史备份过快照，根据我在 homelab 环境中长期使用经验来看，使用类似 host 模式下方式进行恢复，失败的概念会更大，所以强烈建议使用定期备份的快照恢复！
+
+1. 恢复过程省略，和场景一类似。
+
+1. 接下来通过 systemd 重启 kubelet 服务，kubelet 会自动帮助恢复 static pod 服务。
+
+    ```bash
+    systemctl start kubelet
+    ```
+
+1. 检查 etcd 集群健康状态后。
+
+    ```bash
+    ETCDCTL_API=3 etcdctl --endpoints=https://192.168.0.150:2379,https://192.168.0.151:2379,https://192.168.0.152:2379 \
+    --cacert=/etc/kubernetes/ssl/etcd/ca.crt \
+    --cert=/etc/kubernetes/ssl/etcd/healthcheck-client.crt \
+    --key=/etc/kubernetes/ssl/etcd/healthcheck-client.key \
+    endpoint status -w table
+    ```
+
+    输出状态：
+
+    ```bash
+    +----------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+    |          ENDPOINT          |        ID        | VERSION | DB SIZE | IS LEADER | IS LEARNER | RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |
+    +----------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+    | https://192.168.0.150:2379 | d501b26d8a46794b |  3.5.21 |  416 MB |     false |      false |         2 |      83445 |              83445 |        |
+    | https://192.168.0.151:2379 | b7eac1b154cd2829 |  3.5.21 |  416 MB |     false |      false |         2 |      83445 |              83445 |        |
+    | https://192.168.0.152:2379 | 4f049cf7fa3eb446 |  3.5.21 |  416 MB |      true |      false |         2 |      83445 |              83445 |        |
+    +----------------------------+------------------+---------+---------+-----------+------------+-----------+------------+--------------------+--------+
+    ```
+
+1. 利用 gitops 仓库顺序协调其他服务即可。
