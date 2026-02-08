@@ -175,6 +175,10 @@ dist
 # Custom
 /content/posts_backup/
 .markdownlint-cli2.jsonc
+.workflow/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Local artifacts (screenshots, debugging, etc.)
+output/

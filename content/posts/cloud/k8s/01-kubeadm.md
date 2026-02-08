@@ -7,7 +7,7 @@ tags: ["Kubernetes", "kubeadm", "集群部署", "集群升级"]
 series: ["K8s"]
 keywords: ["kubeadm", "Kubernetes 集群部署", "Kubernetes 升级", "高可用集群"]
 ShowToc: true
-TocOpen: true
+TocOpen: false
 draft: false
 ---
 

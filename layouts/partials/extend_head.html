@@ -5,6 +5,3 @@
 <link rel="preload" href="{{ $fontLatinReg }}" as="font" type="font/woff2" crossorigin="anonymous">
 <link rel="preload" href="{{ $fontLatinBold }}" as="font" type="font/woff2" crossorigin="anonymous">
 <link rel="preload" href="{{ $fontSCReg }}" as="font" type="font/woff2" crossorigin="anonymous">
-
-{{ $syntax := resources.Get "css/syntax.css" | minify | fingerprint }}
-<link rel="stylesheet" href="{{ $syntax.Permalink }}" integrity="{{ $syntax.Data.Integrity }}">

@@ -5,27 +5,40 @@
 }
 
 /* 表格优化 */
-.post-content table {
+.post-content table:not(.highlighttable, .highlight table, .gist .highlight) {
   table-layout: auto;
-  font-size: 1.15rem;
   overflow: hidden;
+  border-spacing: 0;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
 }
 
-.post-content th,
-.post-content td {
+.post-content table:not(.highlighttable, .highlight table, .gist .highlight) th,
+.post-content table:not(.highlighttable, .highlight table, .gist .highlight) td {
   padding: 12px 16px;
   background: var(--entry);
   color: var(--content);
   text-align: left;
 }
 
-.post-content th {
+.post-content
+  table:not(.highlighttable, .highlight table, .gist .highlight)
+  tbody
+  tr
+  + tr
+  td {
+  border-top: 1px solid var(--card-border);
+}
+
+.post-content table:not(.highlighttable, .highlight table, .gist .highlight) th {
   background: var(--tertiary);
   font-weight: 700;
   color: var(--primary);
 }
 
-.post-content tr:hover td {
+.post-content table:not(.highlighttable, .highlight table, .gist .highlight)
+  tr:hover
+  td {
   background: var(--code-bg);
 }
-
