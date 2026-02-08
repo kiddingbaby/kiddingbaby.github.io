@@ -8,17 +8,3 @@
 
 {{ $syntax := resources.Get "css/syntax.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $syntax.Permalink }}" integrity="{{ $syntax.Data.Integrity }}">
-
-<script src="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js"></script>
-<script>
-  mermaid.initialize({ startOnLoad: true });
-</script>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBLE5G77WJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-
-  gtag('config', 'G-ZBLE5G77WJ');
-</script>

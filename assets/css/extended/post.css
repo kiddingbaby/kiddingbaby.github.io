@@ -10,25 +10,21 @@
   overflow: hidden;
 }
 
-.post-content th, 
+.post-content th,
 .post-content td {
   padding: 12px 16px;
-  background: #fff;
-  color: #333;
+  background: var(--entry);
+  color: var(--content);
   text-align: left;
 }
 
 .post-content th {
-  background: #ebf2ff;
+  background: var(--tertiary);
   font-weight: 700;
-  color: #1a1a1a;
-}
-
-.post-content tr:nth-child(even) td {
-  background: #f7faff;
+  color: var(--primary);
 }
 
 .post-content tr:hover td {
-  background: rgba(173, 191, 255, 0.25);
+  background: var(--code-bg);
 }
 

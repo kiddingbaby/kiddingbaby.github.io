@@ -2,7 +2,7 @@ baseURL: "https://kiddingbaby.github.io/"
 theme: [PaperMod]
 mainsections: ["posts"]
 enableEmoji: true
-copyright: "© 2025 kiddingbaby · All rights reserved."
+copyright: "© 2026 kiddingbaby · All rights reserved."
 
 # 构建
 buildDrafts: false
@@ -240,6 +240,6 @@ params:
     google:
       SiteVerificationTag: "9LLNZ7u-itiHahFUtNsQRkwelLmMaT7_7LNkvuDcVo4"
     bing:
-      SiteVerificationTag: 243869D13E10A37FFFF896632D36E82D"
+      SiteVerificationTag: "243869D13E10A37FFFF896632D36E82D"
     yandex:
       SiteVerificationTag: "b671a41272723922"
