@@ -106,6 +106,7 @@ stringData:
     ...
     -----END OPENSSH PRIVATE KEY-----
 ```
+
 在 ArgoCD 中注册 Git 仓库，引用此 Secret。
 
 ## 配置初始 RBAC

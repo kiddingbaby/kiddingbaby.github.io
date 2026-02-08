@@ -13,7 +13,9 @@ draft: false
 
 ## 各种 Ceph 部署工具比较
 
-Ceph 是一款企业级开源分布式存储系统，具备高可扩展性与强一致性。早期 Ceph 部署主要采用 ceph-deploy 配合 Ansible 的方式，目前，ceph-deploy 已逐步被淘汰，而 ceph-ansible 项目自 2022 年 8 月起停止发布新版本，社区建议迁移至 cephadm。从 Octopus（15.2.x）版本起，Ceph 官方引入并推荐使用基于容器的部署与运维工具 cephadm，用于统一管理集群的部署、升级与服务编排。
+Ceph 是一款企业级开源分布式存储系统，具备高可扩展性与强一致性。早期 Ceph 部署主要采用 ceph-deploy 配合 Ansible 的方式，
+目前，ceph-deploy 已逐步被淘汰，而 ceph-ansible 项目自 2022 年 8 月起停止发布新版本，社区建议迁移至 cephadm。
+从 Octopus（15.2.x）版本起，Ceph 官方引入并推荐使用基于容器的部署与运维工具 cephadm，用于统一管理集群的部署、升级与服务编排。
 
 在 Kubernetes 环境中，Rook 提供原生方式来消费 Ceph 存储，是当前最主流的集成方案。Rook 支持部署独立 Ceph 集群，也支持接入外部已部署的 Ceph 集群（External Cluster 模式）。
 
@@ -23,7 +25,9 @@ Ceph 是一款企业级开源分布式存储系统，具备高可扩展性与强
 * Rook 设计上更适合一个 K8s 集群部署一套独立的 Ceph 集群，虽然解耦性好，但是存储资源在集群间难以服用，资源成本和运维复杂度都不小
 * Rook 只适合云原生场景，不兼容裸金属、私有云、公有云等混合架构下，难以作为统一管理的底层存储平台
 
-本系列将采用 cephadm 部署 Ceph 集群，Rook 作为消费端接入的架构，兼顾了运维可控性与云原生生态的集成能力，适用于混合架构下的统一存储场景。对于 Dev/Test/Staging 等非生产环境，可共用一套由 cephadm 部署的中小型集群；对于 Prod 环境，建议独立部署一套 Ceph 集群。总的来说，这种方式可以很好的适配混合架构，避免 Kubernetes 本身的不稳定影响，并降低重复部署成本。
+本系列将采用 cephadm 部署 Ceph 集群，Rook 作为消费端接入的架构，兼顾了运维可控性与云原生生态的集成能力，适用于混合架构下的统一存储场景。
+对于 Dev/Test/Staging 等非生产环境，可共用一套由 cephadm 部署的中小型集群；对于 Prod 环境，建议独立部署一套 Ceph 集群。
+总的来说，这种方式可以很好的适配混合架构，避免 Kubernetes 本身的不稳定影响，并降低重复部署成本。
 
 ## Ceph 作为统一存储平台
 
@@ -61,7 +65,9 @@ Rook: v1.17.0
 * 操作系统支持 Python3、Systemd、Podman/Docker、LVM2（目前主流操作系统基本都支持）
 * 已进行时间同步
 
-📌注：强烈推荐使用 Podman 代替 Docker，Podman 支持 rootless 模式、无守护进程（daemonless）运行，且可原生集成 systemd 单元服务，系统亲和性更强。由于 Red Hat 同时是 Ceph 与 Podman 的主要维护方，使用 Podman 能获得更好的兼容性、安全性与官方支持保障。
+📌注：强烈推荐使用 Podman 代替 Docker，Podman 支持 rootless 模式、无守护进程（daemonless）运行，
+且可原生集成 systemd 单元服务，系统亲和性更强。
+由于 Red Hat 同时是 Ceph 与 Podman 的主要维护方，使用 Podman 能获得更好的兼容性、安全性与官方支持保障。
 
 ## 部署一个新集群
 
@@ -258,7 +264,10 @@ Rook: v1.17.0
 
 1. 内存自动调节优化项
 
-    cephadm 引导集群时默认会启用 `osd_memory_target_autotune = true`，并设置 `mgr/cephadm/autotune_memory_target_ratio = 0.7`。也就是说，每台主机的 OSD 默认最多使用该节点总内存的 70%，用于 BlueStore 的缓存，当你的存储集群上有其他服务时，可建议按需调小该参数，防止 OOM。
+    cephadm 引导集群时默认会启用 `osd_memory_target_autotune = true`，
+    并设置 `mgr/cephadm/autotune_memory_target_ratio = 0.7`。
+    也就是说，每台主机的 OSD 默认最多使用该节点总内存的 70%，用于 BlueStore 的缓存，
+    当你的存储集群上有其他服务时，可建议按需调小该参数，防止 OOM。
 
     ```bash
     ceph config set osd osd_memory_target_autotune true

@@ -13,7 +13,9 @@ draft: false
 
 ## Groovy CPS 简介
 
-Groovy CPS 中的 CPS 全称是 Continuation Passing Style，翻译过来就是**延续传递风格**。它允许流水线脚本在任意位置暂停执行，并保存当前执行状态，待外部事件（如审批、异步触发）完成后，再恢复执行。这种机制使得 Jenkins 能够支持复杂的流水线控制和分布式执行。
+Groovy CPS 中的 CPS 全称是 Continuation Passing Style，翻译过来就是**延续传递风格**。
+它允许流水线脚本在任意位置暂停执行，并保存当前执行状态，待外部事件（如审批、异步触发）完成后，再恢复执行。
+这种机制使得 Jenkins 能够支持复杂的流水线控制和分布式执行。
 
 ## Jenkins Pipeline 执行模型
 
@@ -86,4 +88,3 @@ class ContextResolver implements Serializable {
 - 必须为不可序列化的字段添加 transient 修饰，避免序列化异常。
 - 持有 script，应实现 bindScript() 进行动态绑定。
 - 流水线恢复后，调用 bindScript(this) 确保上下文可用。
-

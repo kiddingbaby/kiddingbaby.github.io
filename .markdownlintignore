@@ -1,0 +1,14 @@
+# workflow runtime/workspace
+.workflow/
+**/.workflow-state.md
+
+# workflow archived docs (not maintained)
+skills/workflow/.archive/
+skills/workflow/.archive/**
+**/.archive/
+**/.archive/**
+
+# third-party / vendored
+node_modules/
+themes/
+

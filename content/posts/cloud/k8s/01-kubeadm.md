@@ -64,7 +64,8 @@ kubeadm 提供了 kubeadm init 和 kubeadm join 命令，通过执行必要的�
 
 这里参考了官方文档，给出了较为流程化的表述：
 
-1. 节点默认使用 bootstrap token 和 CA 密钥哈希（`--discovery-token-ca-cert-hash`）通过 API Server 的 cluster-info ConfigMap，自动发现并验证控制平面，并下载必要的集群元信息。也可通过文件或 URL 预先配置，跳过自动发现过程。
+1. 节点默认使用 bootstrap token 和 CA 密钥哈希（`--discovery-token-ca-cert-hash`）通过 API Server 的 cluster-info ConfigMap，
+   自动发现并验证控制平面，并下载必要的集群元信息。也可通过文件或 URL 预先配置，跳过自动发现过程。
 2. 获取集群信息后，kubelet 启动 TLS 引导流程，使用 bootstrap token 与 API Server 进行临时身份验证，并提交 CSR（证书签名请求）。
 3. 控制平面中的 controller-manager 自动批准 CSR，kubelet 获取正式客户端证书。
 4. kubelet 使用该证书与 API Server 建立正式连接，完成节点注册。

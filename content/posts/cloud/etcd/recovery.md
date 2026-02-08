@@ -15,7 +15,8 @@ draft: false
 
 Kubernetes 集群目前并没有提供关机重启的选项，因此维护 etcd 集群的稳定至关重要，在生产环境下推荐以 External 方式来部署 etcd 集群，并放在单独的区域内。
 
-Kubespray 默认使用 host 模式来部署外部 etcd 集群，只需依赖 systemd 即可，这是生产下经过长期验证的部署方式，缺点是增加了证书管理成本。kubeadm 官方建议通过 static pod 方式来部署外部 etcd 集群，优势是在云原生环境下更具一致性，但缺点是额外增加了 kubelet、CRI 等依赖。
+Kubespray 默认使用 host 模式来部署外部 etcd 集群，只需依赖 systemd 即可，这是生产下经过长期验证的部署方式，缺点是增加了证书管理成本。
+kubeadm 官方建议通过 static pod 方式来部署外部 etcd 集群，优势是在云原生环境下更具一致性，但缺点是额外增加了 kubelet、CRI 等依赖。
 
 在已有 Kubespray 支持的前提下，个人推荐先使用 host 模式来部署外部 etcd，熟悉 K8s 生态后再使用 static pod 模式来部署。
 
@@ -32,7 +33,8 @@ Kubernetes: 1.31.7
 etcd: 3.5.19
 ```
 
-在我的实验环境中，[使用 Kubespray 在虚拟化环境中搭建一个 3 节点的 HA Kubernetes 集群]({{< relref "posts/cloud/k8s/02-kubespray.md" >}})，其中外部 etcd 使用 systemd 管理。但由于频繁的关机、休眠，非常容易出现 etcd 集群整体不可用、Raft 状态错误或 WAL 损坏等情况。
+在我的实验环境中，[使用 Kubespray 在虚拟化环境中搭建一个 3 节点的 HA Kubernetes 集群]({{< relref "posts/cloud/k8s/02-kubespray.md" >}})，
+其中外部 etcd 使用 systemd 管理。但由于频繁的关机、休眠，非常容易出现 etcd 集群整体不可用、Raft 状态错误或 WAL 损坏等情况。
 
 这里我们要分两种情况：
 
