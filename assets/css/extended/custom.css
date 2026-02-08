@@ -16,11 +16,102 @@ iframe {
   border: 1px solid var(--border);
 }
 
-/*
- * 直接继承主题背景色，避免代码块背景色不协调
- */
-.chroma {
-  background-color: unset;
+/* Typography tweaks for long Chinese/English technical posts. */
+.post-title {
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+}
+
+/* Make headings feel less "shouty" on CJK-heavy posts. */
+.post-content h2 {
+  font-size: 28px;
+  margin: 28px 0 18px;
+}
+
+.post-content h3 {
+  font-size: 20px;
+  margin: 22px 0 14px;
+}
+
+.post-content p {
+  line-height: 1.75;
+}
+
+.post-content hr {
+  height: 1px;
+  background: var(--border);
+  opacity: 0.9;
+}
+
+/* Make TOC feel like a "card" instead of a raw list block. */
+.toc {
+  background: var(--card-bg);
+  padding: 14px 16px;
+  max-height: 360px;
+  overflow: auto;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+}
+
+.toc details summary {
+  cursor: pointer;
+}
+
+.toc .inner {
+  margin: 10px 0 0;
+  padding: 0;
+  opacity: 1;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.toc ul {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.toc li {
+  margin: 6px 0;
+}
+
+.toc li ul {
+  margin-inline-start: 14px;
+  padding-inline-start: 12px;
+  border-inline-start: 1px solid var(--card-border);
+}
+
+.toc a {
+  box-shadow: none;
+}
+
+.toc a:hover {
+  box-shadow: none;
+  opacity: 0.85;
+}
+
+/* Code blocks: keep a consistent "card" feel and avoid mid-word wrapping. */
+.post-content .highlight:not(table) {
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+}
+
+.post-content pre code {
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* Light theme: use a slightly softer, bluish code background (matches chroma palette better). */
+:root[data-theme="light"] {
+  --code-block-bg: rgb(36, 39, 58);
+}
+
+:root[data-theme="light"] .post-content pre code {
+  color: #cad3f5;
+}
+
+:root[data-theme="light"] .post-content .highlight:not(table),
+:root[data-theme="light"] .post-content pre code {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
 }
 
 /* Profile mode 按钮 */

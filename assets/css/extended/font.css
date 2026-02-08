@@ -72,23 +72,21 @@
 
 /* 正文排版字体（中英文混排） */
 body {
-  font-family: "Noto Sans", "Noto Sans SC", "Segoe UI", Roboto, "Helvetica Neue",
+  /* Prefer SC first so mixed Chinese/English paragraphs look more uniform. */
+  font-family: "Noto Sans SC", "Noto Sans", "Segoe UI", Roboto, "Helvetica Neue",
     "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Apple Color Emoji",
     sans-serif;
-  font-size: 1.15rem;
-  line-height: 1.6;
-  word-break: break-word;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: var(--theme);
 }
 
 /* 代码字体配置 */
 code,
 pre,
-.highlight {
-  font-family: "Source Code Pro", Consolas, Menlo, Monaco, "Courier New",
-    "Liberation Mono", monospace;
-  font-size: 1.05rem;
-  line-height: 1.6;
+kbd,
+samp {
+  /* Try CJK-capable monospace families before falling back to system monospace. */
+  font-family: "Source Code Pro", "Sarasa Mono SC", "Noto Sans Mono CJK SC",
+    "Noto Sans Mono CJK", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
