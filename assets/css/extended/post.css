@@ -1,6 +1,7 @@
 .post-content a:hover {
-  color: #007acc;
+  color: var(--primary);
   border-bottom-color: transparent;
+  opacity: 0.8;
 }
 
 /* 表格优化 */

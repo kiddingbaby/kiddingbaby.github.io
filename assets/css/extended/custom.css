@@ -16,11 +16,27 @@ iframe {
   border: 1px solid var(--border);
 }
 
-/* 
+/*
  * 直接继承主题背景色，避免代码块背景色不协调
  */
 .chroma {
   background-color: unset;
 }
 
+/* Profile mode 按钮 */
+.button {
+  background: transparent;
+  border: 1.5px solid var(--tertiary);
+  padding: 10px 4px;
+  transition: transform 0.1s, border-color 0.25s;
+}
 
+.button:hover {
+  border-color: var(--secondary);
+}
+
+.button-inner {
+  padding: 0 20px;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+}
