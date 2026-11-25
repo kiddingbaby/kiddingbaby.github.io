@@ -27,7 +27,7 @@
 本仓库采用双许可证模式：
 
 - **源代码**（包括布局、配置、主题定制等）：[MIT](./LICENSE-CODE)  
-- **文章内容**（位于 `content/` 目录）：[CC BY-NC-SA 4.0](./LICENSE.md)
+- **文章内容**（位于 `content/` 目录）：[CC BY 4.0](./LICENSE)
 
 ---
 
